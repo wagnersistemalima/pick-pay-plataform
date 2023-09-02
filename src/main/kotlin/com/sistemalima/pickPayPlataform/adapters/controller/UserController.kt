@@ -8,6 +8,7 @@ import com.sistemalima.pickPayPlataform.adapters.controller.mapper.UserRequestMa
 import com.sistemalima.pickPayPlataform.application.ports.inputs.UserService
 import com.sistemalima.pickPayPlataform.domain.mapper.UserMapper.toResponse
 import org.springframework.http.MediaType
+import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
@@ -21,7 +22,13 @@ class UserController(
 
     @PostMapping
     fun create(@RequestBody request: Request<UserRequest>): Response<UserResponse> {
-        val user = userService.execute(request.data.toDomain())
+        val user = userService.create(request.data.toDomain())
         return Response(user.toResponse())
+    }
+
+    @GetMapping
+    fun findAll(): Response<List<UserResponse>> {
+        val listUser = userService.findAll()
+        return Response(listUser.map { it.toResponse() })
     }
 }

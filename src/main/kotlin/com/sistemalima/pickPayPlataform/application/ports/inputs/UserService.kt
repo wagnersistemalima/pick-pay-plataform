@@ -4,5 +4,7 @@ import com.sistemalima.pickPayPlataform.domain.User
 
 interface UserService {
 
-    fun execute(user: User): User
+    fun create(user: User): User
+
+    fun findAll(): List<User>
 }
