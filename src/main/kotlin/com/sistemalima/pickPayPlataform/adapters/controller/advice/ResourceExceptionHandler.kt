@@ -1,6 +1,7 @@
 package com.sistemalima.pickPayPlataform.adapters.controller.advice
 
 import com.sistemalima.pickPayPlataform.adapters.controller.advice.entity.ErrorView
+import com.sistemalima.pickPayPlataform.domain.exceptions.BusinessException
 import jakarta.servlet.http.HttpServletRequest
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.MethodArgumentNotValidException
@@ -22,6 +23,30 @@ class ResourceExceptionHandler {
             status = HttpStatus.BAD_REQUEST.value(),
             error = HttpStatus.BAD_REQUEST.name,
             message = errorMessage.toString(),
+            path = request.servletPath
+        )
+    }
+
+    @ExceptionHandler(BusinessException::class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    fun handlerBusinessException(exception: BusinessException, request: HttpServletRequest): ErrorView {
+
+        return ErrorView(
+            status = HttpStatus.BAD_REQUEST.value(),
+            error = HttpStatus.BAD_REQUEST.name,
+            message = exception.message.toString(),
+            path = request.servletPath
+        )
+    }
+
+    @ExceptionHandler(Exception::class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    fun handlerBusinessException(exception: Exception, request: HttpServletRequest): ErrorView {
+
+        return ErrorView(
+            status = HttpStatus.INTERNAL_SERVER_ERROR.value(),
+            error = HttpStatus.INTERNAL_SERVER_ERROR.name,
+            message = exception.message.toString(),
             path = request.servletPath
         )
     }

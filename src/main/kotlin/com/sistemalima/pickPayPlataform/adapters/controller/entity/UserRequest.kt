@@ -11,6 +11,7 @@ import java.math.BigDecimal
 
 data class UserRequest(
     @field:NotBlank
+    @field:Length(max = 50)
     val name: String,
 
     @field:CpfOrCnpj
@@ -19,6 +20,7 @@ data class UserRequest(
 
     @field:Email(message = "email tem que ser valido")
     @field:NotBlank
+    @field:Length(max = 50)
     val email: String,
 
     @field:NotBlank
