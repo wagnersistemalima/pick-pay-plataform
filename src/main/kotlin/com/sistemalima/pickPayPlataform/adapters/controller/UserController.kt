@@ -43,8 +43,8 @@ class UserController(
     }
 
     @GetMapping(value = ["/{id}"])
-    fun findByid(@PathVariable id: Long): ResponseEntity<UserResponse> {
+    fun findByid(@PathVariable id: Long): ResponseEntity<Response<UserResponse>> {
         val user = userService.findById(id)
-        return ResponseEntity.ok(user.toResponse())
+        return ResponseEntity.ok(Response(user.toResponse()))
     }
 }
