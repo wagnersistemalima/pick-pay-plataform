@@ -9,7 +9,6 @@ import com.sistemalima.pickPayPlataform.domain.mapper.UserMapper.toEntity
 import jakarta.persistence.EntityNotFoundException
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import java.util.*
 
 @Service
 class UserServiceImpl(
