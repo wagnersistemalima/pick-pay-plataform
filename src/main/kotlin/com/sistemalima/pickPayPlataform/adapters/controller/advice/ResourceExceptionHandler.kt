@@ -2,6 +2,7 @@ package com.sistemalima.pickPayPlataform.adapters.controller.advice
 
 import com.sistemalima.pickPayPlataform.adapters.controller.advice.entity.ErrorView
 import com.sistemalima.pickPayPlataform.domain.exceptions.BusinessException
+import jakarta.persistence.EntityNotFoundException
 import jakarta.servlet.http.HttpServletRequest
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.MethodArgumentNotValidException
@@ -39,9 +40,21 @@ class ResourceExceptionHandler {
         )
     }
 
+    @ExceptionHandler(EntityNotFoundException::class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    fun handlerEntityNotFoundException(exception: EntityNotFoundException, request: HttpServletRequest): ErrorView {
+
+        return ErrorView(
+            status = HttpStatus.NOT_FOUND.value(),
+            error = HttpStatus.NOT_FOUND.name,
+            message = exception.message.toString(),
+            path = request.servletPath
+        )
+    }
+
     @ExceptionHandler(Exception::class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    fun handlerBusinessException(exception: Exception, request: HttpServletRequest): ErrorView {
+    fun handlerException(exception: Exception, request: HttpServletRequest): ErrorView {
 
         return ErrorView(
             status = HttpStatus.INTERNAL_SERVER_ERROR.value(),

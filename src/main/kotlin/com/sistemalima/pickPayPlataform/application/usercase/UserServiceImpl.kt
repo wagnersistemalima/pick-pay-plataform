@@ -6,8 +6,10 @@ import com.sistemalima.pickPayPlataform.application.ports.outputs.UserRepository
 import com.sistemalima.pickPayPlataform.domain.User
 import com.sistemalima.pickPayPlataform.domain.exceptions.BusinessException
 import com.sistemalima.pickPayPlataform.domain.mapper.UserMapper.toEntity
+import jakarta.persistence.EntityNotFoundException
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import java.util.*
 
 @Service
 class UserServiceImpl(
@@ -27,6 +29,15 @@ class UserServiceImpl(
         return list.map { it.toModel() }
     }
 
+    @Transactional(readOnly = true)
+    override fun findById(id: Long): User {
+        val user = userRepository.findById(id).orElseThrow {
+            throw EntityNotFoundException("user id not found")
+        }
+        return user.toModel()
+    }
+
+    @Transactional(readOnly = true)
     private fun validationRegisterUnique(user: User) {
         if (userRepository.existsByEmail(user.email)) {
             throw BusinessException("emails must be unique in the system")
