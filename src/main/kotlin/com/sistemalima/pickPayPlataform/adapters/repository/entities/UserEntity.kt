@@ -1,7 +1,17 @@
 package com.sistemalima.pickPayPlataform.adapters.repository.entities
 
-import jakarta.persistence.*
+import com.sistemalima.pickPayPlataform.domain.exceptions.BusinessException
 import java.math.BigDecimal
+import jakarta.persistence.Entity
+import jakarta.persistence.Table
+import jakarta.persistence.Column
+import jakarta.persistence.Id
+import jakarta.persistence.GeneratedValue
+import jakarta.persistence.GenerationType
+import jakarta.persistence.Enumerated
+import jakarta.persistence.EnumType
+import jakarta.persistence.Embedded
+import jakarta.persistence.Embeddable
 
 @Entity
 @Table(name = "tb_user")
@@ -31,8 +41,22 @@ data class UserEntity(
 ){
     @Embeddable
     data class AccountingEntity(
-        val balance: BigDecimal
-    )
+        var balance: BigDecimal
+    ) {
+        fun toWithdraw(value: BigDecimal) {
+            if (value > BigDecimal.ZERO && this.balance > BigDecimal.ZERO && value <= this.balance) {
+                this.balance -= value
+            } else {
+                throw BusinessException("Insufficient account balance for this transaction")
+            }
+        }
+
+        fun toDeposit(value: BigDecimal) {
+            if (value > BigDecimal.ZERO) {
+                this.balance += value
+            }
+        }
+    }
 
     enum class UserEntityTypeEnum {
         COMMON_PERSON,

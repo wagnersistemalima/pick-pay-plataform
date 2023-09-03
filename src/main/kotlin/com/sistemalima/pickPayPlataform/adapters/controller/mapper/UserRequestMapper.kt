@@ -4,8 +4,8 @@ import com.sistemalima.pickPayPlataform.adapters.controller.entity.UserRequest
 import com.sistemalima.pickPayPlataform.domain.User
 
 object UserRequestMapper {
-
     fun UserRequest.toDomain(): User {
+
         return User(
             name = this.name,
             document = this.document,

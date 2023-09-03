@@ -3,11 +3,11 @@ package com.sistemalima.pickPayPlataform.domain.mapper
 import com.sistemalima.pickPayPlataform.adapters.controller.entity.UserResponse
 import com.sistemalima.pickPayPlataform.adapters.repository.entities.UserEntity
 import com.sistemalima.pickPayPlataform.domain.User
-import com.sistemalima.pickPayPlataform.domain.mapper.UserMapper.toEntity
 
 object UserMapper {
 
     fun User.toEntity(): UserEntity {
+
         return UserEntity(
             name = this.name,
             document = this.document,

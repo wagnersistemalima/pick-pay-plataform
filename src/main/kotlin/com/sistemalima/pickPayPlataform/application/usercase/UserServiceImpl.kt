@@ -1,6 +1,6 @@
 package com.sistemalima.pickPayPlataform.application.usercase
 
-import com.sistemalima.pickPayPlataform.adapters.repository.mapper.UserEntityMapper.toModel
+import com.sistemalima.pickPayPlataform.adapters.repository.mapper.UserEntityMapper.toDomain
 import com.sistemalima.pickPayPlataform.application.ports.inputs.UserService
 import com.sistemalima.pickPayPlataform.application.ports.outputs.UserRepository
 import com.sistemalima.pickPayPlataform.domain.User
@@ -17,23 +17,24 @@ class UserServiceImpl(
 
     @Transactional
     override fun create(user: User): User {
+        validatedUserType(user)
         validationRegisterUnique(user)
         val userEntity = userRepository.save(user.toEntity())
-        return userEntity.toModel()
+        return userEntity.toDomain()
     }
 
     @Transactional(readOnly = true)
     override fun findAll(): List<User> {
-        val list = userRepository.findAll()
-        return list.map { it.toModel() }
+        val listUserEntity = userRepository.findAll()
+        return listUserEntity.map { it.toDomain() }
     }
 
     @Transactional(readOnly = true)
     override fun findById(id: Long): User {
-        val user = userRepository.findById(id).orElseThrow {
+        val userEntity = userRepository.findById(id).orElseThrow {
             throw EntityNotFoundException("user id not found")
         }
-        return user.toModel()
+        return userEntity.toDomain()
     }
 
     @Transactional(readOnly = true)
@@ -44,6 +45,19 @@ class UserServiceImpl(
 
         if (userRepository.existsByDocument(user.document)) {
             throw BusinessException("documents must be unique in the system")
+        }
+    }
+
+    private fun validatedUserType(user: User): Boolean {
+
+        val cnpj = 14
+        val cpf = 11
+        return if (user.document.length == cnpj && user.userType == User.UserTypeEnum.MERCHANT_PERSON) {
+            true
+        } else if (user.document.length == cpf && user.userType == User.UserTypeEnum.COMMON_PERSON) {
+            true
+        } else {
+            throw BusinessException("common person or merchant type validation error")
         }
     }
 }
