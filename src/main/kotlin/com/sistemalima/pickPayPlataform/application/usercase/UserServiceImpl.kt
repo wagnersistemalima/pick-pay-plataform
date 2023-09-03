@@ -24,16 +24,16 @@ class UserServiceImpl(
 
     @Transactional(readOnly = true)
     override fun findAll(): List<User> {
-        val list = userRepository.findAll()
-        return list.map { it.toModel() }
+        val listUserEntity = userRepository.findAll()
+        return listUserEntity.map { it.toModel() }
     }
 
     @Transactional(readOnly = true)
     override fun findById(id: Long): User {
-        val user = userRepository.findById(id).orElseThrow {
+        val userEntity = userRepository.findById(id).orElseThrow {
             throw EntityNotFoundException("user id not found")
         }
-        return user.toModel()
+        return userEntity.toModel()
     }
 
     @Transactional(readOnly = true)
