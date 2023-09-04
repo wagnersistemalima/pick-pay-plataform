@@ -1,0 +1,8 @@
+version: '3'
+
+services:
+  bank:
+    image: wagnersistemalima/pick-pay-plataform:v1
+    container_name: bank
+    ports:
+      - "8080:8080"
