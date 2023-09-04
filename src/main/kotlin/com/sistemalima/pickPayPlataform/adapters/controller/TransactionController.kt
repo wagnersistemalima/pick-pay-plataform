@@ -6,8 +6,10 @@ import com.sistemalima.pickPayPlataform.adapters.controller.entity.TransactionRe
 import com.sistemalima.pickPayPlataform.adapters.controller.entity.TransactionResponse
 import com.sistemalima.pickPayPlataform.adapters.controller.mapper.TransactionRequestMapper.toDomain
 import com.sistemalima.pickPayPlataform.application.ports.inputs.TransactionService
+import com.sistemalima.pickPayPlataform.domain.Observability
 import com.sistemalima.pickPayPlataform.domain.mapper.TransactionMapper.toResponse
 import jakarta.validation.Valid
+import org.slf4j.LoggerFactory
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.validation.annotation.Validated
@@ -24,13 +26,23 @@ class TransactionController(
     private val transactionService: TransactionService
 ) {
 
+    private val logger = LoggerFactory.getLogger(TransactionController::class.java)
+
     @PostMapping
     fun newTransaction(
         @RequestBody @Valid request: Request<TransactionRequest>,
         uriBuilder: UriComponentsBuilder
     ): ResponseEntity<Response<TransactionResponse>> {
-        val transaction = transactionService.newTransaction(request.data.toDomain())
+
+        val observability = Observability(senderId = request.data.senderId, receveirId = request.data.receiverId)
+
+        logger.info("class: ${javaClass.simpleName}, Start process request new transaction, $observability")
+
+        val transaction = transactionService.newTransaction(request.data.toDomain(), observability)
         val uri = uriBuilder.path("/transactions/${transaction.id}").build().toUri()
+
+        logger.info("class: ${javaClass.simpleName}, End process request new transaction, $observability")
+
         return ResponseEntity.created(uri).body(Response(transaction.toResponse()))
     }
 }
