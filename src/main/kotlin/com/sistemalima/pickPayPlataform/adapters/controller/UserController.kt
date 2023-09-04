@@ -60,7 +60,7 @@ class UserController(
 
     @GetMapping(value = ["/{id}"])
     fun findByid(@PathVariable id: Long): ResponseEntity<Response<UserResponse>> {
-        val observability = Observability(id = id)
+        val observability = Observability(userId = id)
 
         logger.info("class: ${javaClass.simpleName}, Start process userId, $observability")
 

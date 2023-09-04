@@ -8,6 +8,6 @@ data class Observability(
     val dateTime: String = LocalDateTime.now().toString(),
     val email: String? = null,
     val userId: Long? = null,
-    val senderId: Long?,
-    val receveirId: Long?
+    val senderId: Long? = null,
+    val receveirId: Long? = null
 )
