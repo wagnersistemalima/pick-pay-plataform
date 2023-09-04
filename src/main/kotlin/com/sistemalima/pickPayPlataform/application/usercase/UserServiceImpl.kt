@@ -5,8 +5,8 @@ import com.sistemalima.pickPayPlataform.application.ports.inputs.UserService
 import com.sistemalima.pickPayPlataform.application.ports.outputs.UserRepository
 import com.sistemalima.pickPayPlataform.domain.User
 import com.sistemalima.pickPayPlataform.domain.exceptions.BusinessException
+import com.sistemalima.pickPayPlataform.domain.exceptions.ResourceEntityNotFoundException
 import com.sistemalima.pickPayPlataform.domain.mapper.UserMapper.toEntity
-import jakarta.persistence.EntityNotFoundException
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -32,7 +32,7 @@ class UserServiceImpl(
     @Transactional(readOnly = true)
     override fun findById(id: Long): User {
         val userEntity = userRepository.findById(id).orElseThrow {
-            throw EntityNotFoundException("user id not found")
+            throw ResourceEntityNotFoundException("user id not found")
         }
         return userEntity.toDomain()
     }

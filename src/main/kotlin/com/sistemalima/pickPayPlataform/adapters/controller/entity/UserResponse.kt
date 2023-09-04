@@ -5,9 +5,6 @@ import java.math.BigDecimal
 data class UserResponse(
     val id: Long,
     val name: String,
-    val document: String,
-    val email: String,
-    val password: String,
     val userType: UserResponseTypeEnum,
     val accounting: AccountingResponse
 ){

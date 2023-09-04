@@ -20,7 +20,9 @@ object TransactionMapper {
             id = checkNotNull(this.id),
             senderId = this.senderId,
             receiverId = this.receiverId,
-            value = this.value
+            value = this.value,
+            email = this.email,
+            message = this.message
         )
     }
 }

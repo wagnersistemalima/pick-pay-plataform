@@ -35,9 +35,6 @@ object UserMapper {
         return UserResponse(
             id = checkNotNull(this.id),
             name = this.name,
-            document = this.document,
-            email = this.email,
-            password = this.password,
             userType = this.userType.toResponse(),
             accounting = this.accounting.toResponse()
         )

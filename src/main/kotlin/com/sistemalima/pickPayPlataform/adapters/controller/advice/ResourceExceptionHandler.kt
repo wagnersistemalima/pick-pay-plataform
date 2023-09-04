@@ -2,13 +2,14 @@ package com.sistemalima.pickPayPlataform.adapters.controller.advice
 
 import com.sistemalima.pickPayPlataform.adapters.controller.advice.entity.ErrorView
 import com.sistemalima.pickPayPlataform.domain.exceptions.BusinessException
-import jakarta.persistence.EntityNotFoundException
+import com.sistemalima.pickPayPlataform.domain.exceptions.ResourceEntityNotFoundException
 import jakarta.servlet.http.HttpServletRequest
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.MethodArgumentNotValidException
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestControllerAdvice
+import java.io.IOException
 
 @RestControllerAdvice
 class ResourceExceptionHandler {
@@ -40,9 +41,9 @@ class ResourceExceptionHandler {
         )
     }
 
-    @ExceptionHandler(EntityNotFoundException::class)
+    @ExceptionHandler(ResourceEntityNotFoundException::class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    fun handlerEntityNotFoundException(exception: EntityNotFoundException, request: HttpServletRequest): ErrorView {
+    fun handlerResourceEntityNotFoundException(exception: ResourceEntityNotFoundException, request: HttpServletRequest): ErrorView {
 
         return ErrorView(
             status = HttpStatus.NOT_FOUND.value(),
@@ -59,6 +60,18 @@ class ResourceExceptionHandler {
         return ErrorView(
             status = HttpStatus.INTERNAL_SERVER_ERROR.value(),
             error = HttpStatus.INTERNAL_SERVER_ERROR.name,
+            message = exception.message.toString(),
+            path = request.servletPath
+        )
+    }
+
+    @ExceptionHandler(IOException::class)
+    @ResponseStatus(HttpStatus.BAD_GATEWAY)
+    fun handlerIoException(exception: IOException, request: HttpServletRequest): ErrorView {
+
+        return ErrorView(
+            status = HttpStatus.BAD_GATEWAY.value(),
+            error = HttpStatus.BAD_GATEWAY.name,
             message = exception.message.toString(),
             path = request.servletPath
         )

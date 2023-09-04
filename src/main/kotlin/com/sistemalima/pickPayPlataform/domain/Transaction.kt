@@ -6,5 +6,7 @@ data class Transaction(
     val id: Long? = null,
     val senderId: Long,
     val receiverId: Long,
-    val value: BigDecimal
+    val value: BigDecimal,
+    val email: String? = null,
+    val message: String? = null
 )
