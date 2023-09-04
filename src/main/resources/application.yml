@@ -11,16 +11,25 @@ spring:
     username: sa
     password:
 
-    jpa:
-      database-platform: org.hibernate.dialect.H2Dialect
-      properties:
-        hibernate:
-          show_sql: true
-          format_sql: true
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
   h2:
     console:
       enabled: true
       path: /h2-console
+
+  cloud:
+    openfeign:
+      client:
+        config:
+          default:
+            connectTimeout: 2500
+            readTimeout: 2500
+            loggerLevel: basic
 
 management:
   endpoint:
@@ -39,3 +48,38 @@ management:
     export:
       prometheus:
         enabled: true
+
+
+#resilience4j.circuitbreaker.metrics.use_legacy_binder: true
+
+resilience4j.circuitbreaker:
+  configs:
+    default:
+      registerHealthIndicator: false
+      slidingWindowSize: 5
+      minimumNumberOfCalls: 4
+      permittedNumberOfCallsInHalfOpenState: 3
+      automaticTransitionFromOpenToHalfOpenEnabled: true
+      waitDurationInOpenState: 30s
+      failureRateThreshold: 50
+      eventConsumerBufferSize: 100
+      recordExceptions:
+        - java.io.IOException
+        - feign.FeignException
+      ignoreExceptions:
+        - com.sistemalima.pickPayPlataform.domain.exceptions.BusinessException
+        - com.sistemalima.pickPayPlataform.domain.exceptions.ResourceEntityNotFoundException
+  instances:
+    backendA:
+      baseConfig: default
+resilience4j.retry:
+  configs:
+    default:
+      maxRetryAttempts: 2
+      waitDuration: 1000
+      retryExceptions:
+        - java.io.IOException
+        - feign.FeignException
+      ignoreExceptions:
+        - com.sistemalima.pickPayPlataform.domain.exceptions.BusinessException
+        - com.sistemalima.pickPayPlataform.domain.exceptions.ResourceEntityNotFoundException

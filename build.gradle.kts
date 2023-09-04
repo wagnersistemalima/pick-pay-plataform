@@ -19,12 +19,21 @@ repositories {
 	mavenCentral()
 }
 
+extra["springCloudVersion"] = "2022.0.4"
+
 dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("org.springframework.boot:spring-boot-starter-validation")
+	implementation("org.springframework.cloud:spring-cloud-starter-openfeign")
+	// https://mvnrepository.com/artifact/io.github.resilience4j/resilience4j-spring-boot3
+	implementation("io.github.resilience4j:resilience4j-spring-boot3:2.1.0")
+	// https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-aop
+	implementation("org.springframework.boot:spring-boot-starter-aop:3.0.10")
+
+
 	runtimeOnly("com.h2database:h2")
 
 	// ---------------- Observability -----------------
@@ -34,6 +43,12 @@ dependencies {
 
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("io.mockk:mockk:1.13.5")
+}
+
+dependencyManagement {
+	imports {
+		mavenBom("org.springframework.cloud:spring-cloud-dependencies:${property("springCloudVersion")}")
+	}
 }
 
 tasks.withType<KotlinCompile> {

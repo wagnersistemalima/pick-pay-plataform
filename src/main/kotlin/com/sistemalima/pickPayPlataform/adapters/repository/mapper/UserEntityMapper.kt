@@ -1,7 +1,10 @@
 package com.sistemalima.pickPayPlataform.adapters.repository.mapper
 
+import com.sistemalima.pickPayPlataform.adapters.clients.http.service.notification.entity.NotificationRequest
 import com.sistemalima.pickPayPlataform.adapters.repository.entities.UserEntity
 import com.sistemalima.pickPayPlataform.domain.User
+import java.math.BigDecimal
+import java.time.LocalDateTime
 
 object UserEntityMapper {
 
@@ -27,6 +30,14 @@ object UserEntityMapper {
     private fun UserEntity.AccountingEntity.toDomain(): User.Accounting {
         return User.Accounting(
             balance = this.balance
+        )
+    }
+
+    fun UserEntity.toRequest(value: BigDecimal): NotificationRequest {
+        val dateTime = LocalDateTime.now().toString()
+        return NotificationRequest(
+            email = this.email,
+            message = "transfer received in the amount of $value, date: $dateTime"
         )
     }
 }
