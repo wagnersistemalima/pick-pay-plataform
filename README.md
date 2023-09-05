@@ -65,7 +65,7 @@ docker-compose up -d
       "name": "Borde Mais",
       "userType": "MERCHANT_PERSON",
       "accounting": {
-        "balance": 106.00
+        "balance": 100.00
       }
     },
     {
@@ -73,7 +73,7 @@ docker-compose up -d
       "name": "Wagner Lima",
       "userType": "COMMON_PERSON",
       "accounting": {
-        "balance": 94.00
+        "balance": 100.00
       }
     }
   ]
