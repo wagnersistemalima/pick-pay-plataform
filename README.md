@@ -31,8 +31,12 @@ docker-compose up -d
 * documentação da api: http://localhost:8081/swagger-ui/index.html
 * metricas da apilicação: http://localhost:8081/actuator/prometheus
 * metricas circuitBreaker: http://localhost:8081/actuator/circuitbreakerevents
-* end point para test: http://localhost:8081/transactions
+* end point para test das transaçoes: http://localhost:8081/transactions
 * method: POST
+* senderId = 1
+* receiverId = 2
+* COMMON_PERSON pode enviar e receber transferencia de valores
+* MERCHANT_PERSON pode apenas receber transferencia de valores
 * modelo payload de envio: Json
 ```json
 {
@@ -41,6 +45,38 @@ docker-compose up -d
     "receiverId": 2,
     "value": 50
   }
+}
+```
+* end point listar usuarios: http://localhost:8081/users
+* conferir os valores das transferencias
+```json
+{
+  "data": [
+    {
+      "id": 1,
+      "name": "Marina Lima",
+      "userType": "COMMON_PERSON",
+      "accounting": {
+        "balance": 100.00
+      }
+    },
+    {
+      "id": 2,
+      "name": "Borde Mais",
+      "userType": "MERCHANT_PERSON",
+      "accounting": {
+        "balance": 106.00
+      }
+    },
+    {
+      "id": 3,
+      "name": "Wagner Lima",
+      "userType": "COMMON_PERSON",
+      "accounting": {
+        "balance": 94.00
+      }
+    }
+  ]
 }
 ```
 * Ao finalizar os testes digite:
