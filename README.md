@@ -23,11 +23,11 @@ docker-compose up -d
 * 4º passo: na barra de pesquisa digite data sources / add data sources / prometheus
 * prometheus server url: http://prometheus:9090
 * save & test
-* 5º passo: na barra de pesquisa digite import dashboard / upload dashboard JSON file
-* ja deixei tudo pronto na pasta docker da aplicação, so importar e salvar
-* import spring-http.json / select a Prometheus data sources / import
-* import spring-boot-endpoint-metrics.json / select a Prometheus data sources / import
-* Se quiser testar outros dash mesmo processo
+* 5º passo: na barra de pesquisa digite import dashboard / Import via grafana.com/ cole esse id = 17053
+* load
+* visualize o dash da aplicação / Spring Boot & Endpoint Metrics 2.0 id = 17053 / https://grafana.com/grafana/dashboards/17053-spring-boot-statistics-endpoint-metrics/
+* 6º passo: na barra de pesquisa digite import dashboard / Import via grafana.com/ cole esse id = 17360
+* visualize o dash da aplicação / Spring HTTP Example id = 17360 / https://grafana.com/grafana/dashboards/17360-spring-http-example/
 * documentação da api: http://localhost:8081/swagger-ui/index.html
 * metricas da apilicação: http://localhost:8081/actuator/prometheus
 * metricas circuitBreaker: http://localhost:8081/actuator/circuitbreakerevents
