@@ -10,15 +10,15 @@ import org.springframework.stereotype.Service
 import java.io.IOException
 import java.math.BigDecimal
 
-@Service(value = "backendAConnector")
-@CircuitBreaker(name = "backendA")
+@Service(value = "authorizationApiConnector")
+@CircuitBreaker(name = "authorizationApi")
 class AuthorizationServiceImpl(
     private val authorizationClient: AuthorizationClient
 ): AuthorizationService {
 
     private val logger = LoggerFactory.getLogger(AuthorizationServiceImpl::class.java)
 
-    @CircuitBreaker(name = "backendA", fallbackMethod = "")
+    @CircuitBreaker(name = "authorizationApi", fallbackMethod = "")
     override fun execute(userSenderId: Long, value: BigDecimal, observability: Observability): AuthorizationResponse {
 
         logger.info("class: ${javaClass.simpleName}, Get moviment request authorization, $observability")
