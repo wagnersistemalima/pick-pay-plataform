@@ -1,7 +1,63 @@
 # Desafio Back-end PicPay
 
-### Sobre o ambiente da aplicação:
+### Setup do Projeto
+* Linguagem de programação: Kotlin
+* Tecnologia: Spring Boot 3.0.10
+* Gerenciador de dependência: Gradle Kotlin
+* Banco de dados: H2
+* Java 17
+* IDE IntelJ
 
+## Sobre o ambiente da aplicação:
+
+* Docker
+* Você pode testar a aplicação com o docker-compose
+* 1º passo: Na pasta docker, abrir o terminal git bash e execultar o comando 
+```
+docker-compose up -d
+```
+* Para visualizar a Observability no dash do grafana siga esses passos:
+* 2º passo: Ira subir o container do Prometheus, Grafana, cardvisor, redis, pick-pay-plataform
+* 3º passo: acessar url: localhost:3000
+* Login no grafana: userName: admim / password: admin / depois skip
+* 4º passo: na barra de pesquisa digite data sources / add data sources / prometheus
+* prometheus server url: http://prometheus:9090
+* save & test
+* 5º passo: na barra de pesquisa digite import dashboard / upload dashboard JSON file
+* ja deixei tudo pronto na pasta docker da aplicação, so importar e salvar
+* import spring-http.json / select a Prometheus data sources / import
+* import spring-boot-endpoint-metrics.json / select a Prometheus data sources / import
+* Se quiser testar outros dash mesmo processo
+* documentação da api: http://localhost:8081/swagger-ui/index.html
+* metricas da apilicação: http://localhost:8081/actuator/prometheus
+* metricas circuitBreaker: http://localhost:8081/actuator/circuitbreakerevents
+* end point para test: http://localhost:8081/transactions
+* method: POST
+* modelo payload de envio: Json
+```json
+{
+  "data": {
+    "senderId": 1,
+    "receiverId": 2,
+    "value": 50
+  }
+}
+```
+* Ao finalizar os testes digite:
+```
+docker-compose down
+```
+## Documentando da API REST Spring usando OpenAPI 3.0
+
+* http://localhost:8081/swagger-ui/index.html
+
+### O Design Pattern 
+
+* Circuit Breaker (Disjuntor)
+* Este padrão de projeto ajuda a evitar a ocorrência de falhas em cascata e permite construir um serviço tolerante a falhas e resiliente, que consiga sobreviver quando os principais serviços que ele consome estiverem passando por instabilidade.
+### Arquitetura
+
+* Arquitetura hexagonal, com a divisão em camadas de acordo com suas responsabilidades e encapsulamento da lógica
 
 ## Objetivo: PicPay Simplificado
 
@@ -24,38 +80,7 @@ Requisitos:
 - No recebimento de pagamento, o usuário ou lojista precisa receber notificação (envio de email, sms) enviada por um serviço de terceiro e eventualmente este serviço pode estar indisponível/instável. Use este mock para simular o envio (http://o4d9z.mocklab.io/notify).
 
 - Este serviço deve ser RESTFul.
+# Desenvolvido por:
 
-### Payload
+* Wagner de Lima Braga Silva
 
-exemplo aqui:
-
-POST /transaction
-
-```json
-{
-    "value" : 100.00,
-    "payer" : 4,
-    "payee" : 15
-}
-```
-
-## O que será um Diferencial
-- Uso de Docker
-- Testes de [integração](https://www.atlassian.com/continuous-delivery/software-testing/types-of-software-testing)
-- Testes [unitários](https://www.atlassian.com/continuous-delivery/software-testing/types-of-software-testing)
-- Uso de Design Patterns
-- Documentação
-- Proposta de melhoria na arquitetura
-
-
-## Materiais úteis
-- https://picpay.com/site/sobre-nos
-- https://hub.packtpub.com/why-we-need-design-patterns/
-- https://refactoring.guru/
-- http://br.phptherightway.com/
-- https://www.php-fig.org/psr/psr-12/
-- https://www.atlassian.com/continuous-delivery/software-testing/types-of-software-testing
-- https://github.com/exakat/php-static-analysis-tools
-- https://martinfowler.com/articles/microservices.htm
-- https://docs.guzzlephp.org/en/stable/request-options.html
-- https://www.devmedia.com.br/rest-tutorial/28912

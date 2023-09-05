@@ -28,10 +28,12 @@ dependencies {
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("org.springframework.boot:spring-boot-starter-validation")
 	implementation("org.springframework.cloud:spring-cloud-starter-openfeign")
-	// https://mvnrepository.com/artifact/io.github.resilience4j/resilience4j-spring-boot3
 	implementation("io.github.resilience4j:resilience4j-spring-boot3:2.1.0")
-	// https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-aop
 	implementation("org.springframework.boot:spring-boot-starter-aop:3.0.10")
+
+	implementation("io.springfox:springfox-swagger2:3.0.0")
+	implementation("io.springfox:springfox-swagger-ui:3.0.0")
+	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0")
 
 
 	runtimeOnly("com.h2database:h2")

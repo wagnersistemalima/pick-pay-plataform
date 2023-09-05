@@ -1,5 +1,5 @@
 server:
-  port: 8080
+  port: 8081
 
 spring:
   application:
@@ -31,6 +31,18 @@ spring:
             readTimeout: 2500
             loggerLevel: basic
 
+
+#springdoc.api-docs.enabled=false
+#springdoc.swagger-ui.enabled=false
+
+springdoc:
+  swagger-ui:
+    path: /api-docs
+    tryItOutEnabled: true
+    operationsSorter: method
+    tagsSorter: alpha
+    filter: true
+
 management:
   endpoint:
     metrics:
@@ -43,11 +55,12 @@ management:
   endpoints:
     web:
       exposure:
-        include: health,prometheus,metrics,info
+        include: '*'
   metrics:
     export:
       prometheus:
         enabled: true
+  health.circuitbreakers.enable: true
 
 
 #resilience4j.circuitbreaker.metrics.use_legacy_binder: true
@@ -70,7 +83,7 @@ resilience4j.circuitbreaker:
         - com.sistemalima.pickPayPlataform.domain.exceptions.BusinessException
         - com.sistemalima.pickPayPlataform.domain.exceptions.ResourceEntityNotFoundException
   instances:
-    backendA:
+    authorizationApi:
       baseConfig: default
 resilience4j.retry:
   configs:
